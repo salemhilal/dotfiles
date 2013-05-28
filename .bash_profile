@@ -25,6 +25,11 @@ alias ll='ls -Gla'
 alias grep='grep --color=auto'
 alias reup='source ~/.bash_profile'
 
+# cd aliases
+alias cd..='cd ..'
+alias code='cd ~/Code'
+alias ~='cd ~'
+
 # SSH Aliases
 alias jssh='ssh -A -t jumphost-001.sjc1.yammer.com ssh $@'
 alias vssh='ssh vagrant@www.yammer.dev'
