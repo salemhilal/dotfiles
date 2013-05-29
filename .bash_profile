@@ -1,3 +1,6 @@
+# Code Directory
+CODE=~/Code
+
 # Enhance PATH to include /usr/local/bin
 export PATH=/usr/local/bin:$PATH
 
@@ -27,7 +30,7 @@ alias reup='source ~/.bash_profile'
 
 # cd aliases
 alias cd..='cd ..'
-alias code='cd ~/Code'
+alias code='cd $CODE'
 alias ~='cd ~'
 
 # SSH Aliases
@@ -35,9 +38,9 @@ alias jssh='ssh -A -t jumphost-001.sjc1.yammer.com ssh $@'
 alias vssh='ssh vagrant@www.yammer.dev'
 
 # Vagrant Aliases
-alias vhalt='cd ~/Code/vagrant-dev-environment && bundle exec vagrant halt'
-alias vup='cd ~/Code/vagrant-dev-environment && bundle exec vagrant up'
-alias vreup='cd ~/Code/vagrant-dev-environment && bundle exec vagrant reload'
+alias vhalt='cd $CODE/vagrant-dev-environment && bundle exec vagrant halt'
+alias vup='cd $CODE/vagrant-dev-environment && bundle exec vagrant up'
+alias vreup='cd $CODE/vagrant-dev-environment && bundle exec vagrant reload'
 
 # Enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
