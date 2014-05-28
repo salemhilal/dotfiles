@@ -10,7 +10,7 @@ export GOROOT=/usr/local/go
 # Enhance PATH to include /usr/local/bin
 export PATH=/usr/local/bin:$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
 export PATH=~/dev/git-friendly:$PATH # git-friendly
-
+export PATH=$GOPATH/bin:$PATH # add go binaries to path
 
 # Increase history size, ignore duplicates
 export HISTCONTROL=ignoreboth
@@ -20,7 +20,7 @@ export HISTFILESIZE=2500
 # Append to history file, don't overwrite it
 shopt -s histappend
 
-# z!!!! 
+# z!!!!
 . /usr/local/bin/z.sh
 
 # Check/update windowsize after each command
@@ -59,12 +59,14 @@ function prompt {
   local WHITEBOLD="\[\033[1;37m\]"
 
   # Set line color, print horizontal line
-  PS1="$REDBOLD"
+  PS1="$BLUE"
   PS1+="\$(s=\$(printf "%*s" \$COLUMNS); echo \${s// /-})\n"
   # Reset color
   PS1+="\[\033[0m\]"
   # Old prompt
-  PS1+='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1)\$ '
+  PS1+='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1)'
+  PS1+="$WHITEBOLD ✗"
+  PS1+="\[\033[0m\] "
   export PS1
 }
 prompt
@@ -102,14 +104,14 @@ bind "set completion-ignore-case on"
 # http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
 
 export MARKPATH=$HOME/.marks
-function jump { 
+function jump {
     cd -P $MARKPATH/$1 2>/dev/null || echo "No such mark: $1"
 }
-function mark { 
+function mark {
     mkdir -p $MARKPATH; ln -s $(pwd) $MARKPATH/$1
 }
-function unmark { 
-    rm -i $MARKPATH/$1 
+function unmark {
+    rm -i $MARKPATH/$1
 }
 function marks {
     ls -l $MARKPATH | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
@@ -119,7 +121,7 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 # GIT THINGS
-# Git autocomplete. 
+# Git autocomplete.
 if [ ! -f ~/.git-completion.bash ]; then
   curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
 fi
@@ -130,3 +132,11 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 # Better pulls with git up
 git config --global alias.up '!git remote update -p; git merge --ff-only @{u}'
+
+# Git-oopsicommittedsomethingsensitive, aka git-purge
+# Removes a file from the repo and from the history. 
+# http://www.ohdoylerules.com/snippets/purge-file-from-github
+git-purge() {
+  FN="git rm --cached --ignore-unmatch $1"
+  git filter-branch --force --index-filter $FN --prune-empty --tag-name-filter cat -- --all
+}
