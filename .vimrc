@@ -4,7 +4,6 @@ execute pathogen#infect()
 " Use solarized. 
 syntax enable
 set background=dark
-let g:solarized_termtrans = 1
 colorscheme solarized
 
 " Basic config
