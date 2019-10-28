@@ -1,8 +1,3 @@
-# Git friendly - best git aliases ever
-# https://github.com/jamiew/git-friendly
-echo "Installing git-friendly"
-bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
-
 # Homebrew
 # http://brew.sh/
 brew -v >/dev/null 2>&1 || {
