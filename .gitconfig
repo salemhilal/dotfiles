@@ -1,0 +1,60 @@
+[user]
+    user    = Salem Hilal
+    email   = salemhilal@gmail.com
+    name    = salemhilal
+
+[core]
+    autocrlf = false
+    # Globally ignore things in the gitignore file 
+    excludesfile    = ~/.gitignore
+    # Use highlighting and diff-so-fancy as the pager.
+    pager = diff-so-fancy | less --tabs=4 -+F -+X -c
+    whitespace      = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    editor          = vim
+
+[advice]
+    statusHints = false
+
+[alias]
+    # Terse aliases
+    st          = status
+    unadd       = reset HEAD
+    br          = branch
+    d           = diff
+    dc          = diff --cached
+    # I didn't alias "commit" because you should mean that shit.
+    # Pull, using rebase
+    rpull       = pull --rebase --stat
+    pullr       = pull --rebase --stat
+    # Get rid of whatever you were working on
+    fuckit      = checkout . 
+    # Diff, but minus stuff I don't care about
+    doff        = diff --ignore-space-at-eol -b -w --ignore-blank-lines
+    # What did I do between yesterday and right now?
+    standup     = "!git log --author $USER --since 'yesterday midnight' --oneline"
+    # Keep rpulling until you can push
+    superpush   = "!until git rpull && git push; do : ; done"
+    # clean things up when git feels slow
+    lol-come-on-man = "!git gc && git prune && git remote prune origin"
+    # Fix that thing when you accidentally type `git git status`
+    git         = !exec git
+    # If the remote version of a branch is gone, delete the local version too
+    delete-local-orphans = "!git remote prune origin && git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d"
+
+[credential]
+    helper = cache --timeout=86400
+
+[color]
+    ui = true
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "diff"]
+    whitespace = red reverse
+
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = cyan
