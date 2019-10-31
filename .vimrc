@@ -24,11 +24,8 @@ filetype plugin indent on
 
 " Set support for 256 colors
 let &t_Co=256
-" Use this: https://github.com/rakr/vim-one
-" colorscheme desert
-" colorscheme one
-colorscheme atom-dark-256
-" colorscheme papaya_original
+" colorscheme time
+colorscheme black_is_the_color
 " Let the theme know we want a dark background
 set background=dark
 " Treat mustache files like html 
