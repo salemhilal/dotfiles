@@ -1,11 +1,57 @@
-" Pathogen!
-execute pathogen#infect()
-" Ok, now generate helptags for all our packages
-Helptags
-" Care about syntax
-syntax on
-" Indent as well as vim knows how to
-filetype plugin indent on
+" ---------------------------------
+" 
+" INITIALIZE VIM PLUG
+" This is a package manager that'll autoinstall itself
+"
+" ---------------------------------
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
+
+" Sensible default config
+Plug 'tpope/vim-sensible'
+
+" Ale for linting
+Plug 'dense-analysis/ale'
+
+" GIT. GIT. GIT. GIT.
+Plug 'tpope/vim-fugitive'
+
+" Surround stuff with quotes and whatever
+Plug 'tpope/vim-surround'
+
+" Better support for comments
+Plug 'tpope/vim-commentary'
+
+" Paired keymappings that are p chill
+Plug 'tpope/vim-unimpaired'
+
+" Repeat commands with . if plugins support it
+Plug 'tpope/vim-repeat'
+
+" I like this color scheme
+Plug 'plainfingers/black_is_the_color'
+
+" Vim airline and airline themes
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Way better JS support
+Plug 'pangloss/vim-javascript'
+
+" Automatically identify tab width
+Plug 'tpope/vim-sleuth'
+
+" Fuzzy finding
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+
+call plug#end()
+
 
 " ---------------------------------
 "
@@ -20,33 +66,10 @@ filetype plugin indent on
 " ---------------------------------
 
 
-" Coloring and syntax highlighting
-
-" Set support for 256 colors
-let &t_Co=256
-" colorscheme time
-colorscheme black_is_the_color
-" Let the theme know we want a dark background
-set background=dark
-" Treat mustache files like html 
-au BufNewFile,BufRead *.mustache set filetype=html
-" And treat long files like the scum they are (i.e. don't color them)
-au BufReadPost * if getfsize(bufname("%")) > 5*100*1024 | set syntax= | endif
-" Ignore background of the theme so that we can see through to whatever tmux
-" sets the background to. This is useful if, say, you have tmux changing the
-" colors of the background if a pane is inactive.
-hi Normal guibg=NONE ctermbg=NONE
-
-
-
-" Basic config
-
-" Allow for hidden buffers
-set hidden
+" The basics
+"
 " Don't try to be compatable with vi
 set nocompatible
-" Delete auto-indentation, line breaks, insert mode start points
-set backspace=indent,eol,start
 " Show where we are in the file (line/char)
 set ruler
 " Show line numbers
@@ -75,19 +98,29 @@ set breakindentopt=shift:8
 " filesystem watchers (like webpack)
 set backupcopy=yes
 
-" Cursor
 
-" Make the cursor look different in different modes
-" Suited for tmux in iTerm on OSX (I know right)
-" See here for more permutations: http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" Coloring and syntax highlighting
+"
+" Set support for 256 colors
+let &t_Co=256
+" colorscheme time
+colorscheme black_is_the_color
+" Let the theme know we want a dark background
+set background=dark
+" Disable termguicolors because mosh can't understand them
+set notermguicolors 
+
+
+" Syntax
+"
+" Treat mustache files like html 
+au BufNewFile,BufRead *.mustache set filetype=html
+" And treat long files like the scum they are (i.e. don't color them)
+au BufReadPost * if getfsize(bufname("%")) > 5*100*1024 | set syntax= | endif
 
 
 " Indentation
-
-" Use autoindent if filetype based indent doesn't work
-set autoindent
+"
 " Tab is four columns. This changes how text is displayed.
 set tabstop=4
 " Reindenting and autoindenting moves things by 4 columns
@@ -104,23 +137,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 
-" Whitespace trimming
-
-" Delete trailing space on save in php
-autocmd BufWritePre *.php :%s/\s\+$//e
-" Delete trailing space on save in js
-autocmd BufWritePre *.js :%s/\s\+$//e
-" Delete trailing space on save in jsx
-autocmd BufWritePre *.jsx :%s/\s\+$//e
-" Delete trailing space on save in css
-" autocmd BufWritePre *.css :%s/\s\+$//e
-" Delete trailing space on save in smarty template files
-" autocmd BufWritePre *.tpl :%s/\s\+$//e
-" Delete trailing space on save in mustache template files
-" autocmd BufWritePre *.mustache :%s/\s\+$//e
-
 " Mouse mode
-
+"
 " Enable mouse mode, if the terminal supports it. 
 if has('mouse')
   set mouse=a
@@ -128,7 +146,7 @@ endif
 
 
 " Wildmenu
-
+"
 " Enable the wildmenu (that menu at the bottom of the editor)
 set wildmenu
 " When you hit tab in the command line, autocomplete as far as possible on the
@@ -141,14 +159,15 @@ set wildignorecase
 
 
 " Difftool
-
+"
 " Show vertical splits when diffing a file.
 set diffopt+=vertical
 " Ignore whitespace in a diff because that shit's annoying
 set diffopt+=iwhite
 
-" Folding
 
+" Folding
+"
 " Inform code folding based on the syntax
 set foldmethod=syntax
 " and don't fold anything by default (unless you somehow have a file with 99
@@ -157,7 +176,7 @@ set foldlevelstart=99
 
 
 " Searching
-
+"
 " ignore case when searching
 set ignorecase
 " ...unless we search with an uppercase letter
@@ -166,8 +185,8 @@ set smartcase
 autocmd QuickFixCmdPost *grep* cwindow
 
 
-" Cursor line stuff
-
+" Cursor line
+"
 " Highlight the current line in the current pane only.
 " This makes it easier to tell which window is active
 augroup CursorLine
@@ -187,32 +206,15 @@ augroup END
 
 
 " Keyboard shortcuts
-
+"
 " Close current buffer with ctrl+c, and then drop the focus on
 " the last file that you edited. It should leave panes alone.
 nnoremap <C-c> :bp\|bd #<CR>
-
 " In visual mode, // searches whatever you've selected
 vnoremap // y/<C-R>"<CR>
-
 " Select whatever you just pasted with gp
 " see: http://vim.wikia.com/wiki/Selecting_your_pasted_text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-
-" shift+arrow selection (this seems broken, sadly)
-nmap <S-Up> v<Up>
-nmap <S-Down> v<Down>
-nmap <S-Left> v<Left>
-nmap <S-Right> v<Right>
-vmap <S-Up> <Up>
-vmap <S-Down> <Down>
-vmap <S-Left> <Left>
-vmap <S-Right> <Right>
-imap <S-Up> <Esc>v<Up>
-imap <S-Down> <Esc>v<Down>
-imap <S-Left> <Esc>v<Left>
-imap <S-Right> <Esc>v<Right>
-
 " Don't pause when leaving insert mode
 " The pause happens because some commands may start with <esc>,
 " but I don't want them.
@@ -224,6 +226,7 @@ if ! has('gui_running')
 		au InsertLeave * set timeoutlen=1000
 	augroup END
 endif
+
 
 " ---------------------------------
 "
@@ -237,16 +240,11 @@ endif
 
 
 " Ale settings
-
+"
 " use eslint to find lint errors
 let g:ale_linters = {
-\    'javascript': ['eslint']
+\    'javascript': ['yarnpkg eslint']
 \}
-
-" use eslint (which in turn uses prettier) to auto-fix code problems
-" let g:ale_fixers = {
-" \    'javascript': ['prettier']
-" \}
 " run eslint --fix on save
 let g:ale_fix_on_save = 1
 " performance tweak; this means we have to restart vim if we install a new
@@ -265,7 +263,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 
 " Airline settings
-
+"
 " Show buffers like tabs, kinda
 let g:airline#extensions#tabline#enabled = 1
 " Enable powerline fonts (because you have them, right?)
@@ -274,10 +272,11 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = ' '
 " Match airline theme to color scheme
-let g:airline_theme='one'
+let g:airline_theme='minimalist'
+
 
 " NERDTree
-
+"
 " Shortcut to open nerdtree
 nmap <leader>ne :NERDTree<cr>
 " Shortcut to open nerdtree to current file
@@ -287,8 +286,7 @@ let NERDTreeQuitOnOpen=1
 
 
 " FZF
-
-
+"
 " Make sure fzf is in the runtime path
 set rtp+=~/.fzf
 " This should be set in your .zshrc or .bashrc so it can be used by fzf
@@ -318,59 +316,7 @@ nnoremap <silent> <Leader>` :call fzf#run({
 \ })<CR>
 
 
-" IndentLine
-
-" Set the indent character to be super neat.
-let g:indentLine_char = '┊'
-
-
 " vim-javascript
-
+"
 " enable highlighting for jsdoc
 let g:javascript_plugin_jsdoc = 1
-
-
-" xdebug - NOTE: I never got this working, and so never commented it ._.
-
-let g:vdebug_options = {
-\    "port" : 9000,
-\    "timeout" : 20,
-\    "on_close" : 'detach',
-\    "break_on_open" : 1,
-\    "ide_key" : '',
-\    "debug_window_level" : 0,
-\    "debug_file_level" : 0,
-\    "debug_file" : "",
-\    "path_maps" : {
-\        "/home/tschneiter/activity" : "/Users/tschneiter/activity",
-\        "/var/etsy/web-0000000-00000000-000000-UTC" : "/Users/tschneiter/development/Etsyweb",
-\        "/var/etsy/current" : "/Users/tschneiter/development/Etsyweb",
-\        "/home/tschneiter/development/Etsyweb" : "/Users/tschneiter/development/Etsyweb",
-\        "/home/tschneiter/development" : "/Users/tschneiter/development",
-\    },
-\    "watch_window_style" : 'expanded'
-\}
-let s:vdebug_host = system("ifconfig | grep inet | grep -v inet6 | awk '{print $2}' | grep -v 127.0.0.1 | head -n 1")
-let s:vdebug_host = substitute(s:vdebug_host, '[\n\s\r]*$', '', '')
-"echo "Chosen IP address is: " . s:vdebug_host
-if !empty(s:vdebug_host)
-    let g:vdebug_options['server'] = s:vdebug_host
-endif
-let g:vdebug_keymap = {
-\    "step_over"            : "<Leader><F2>",
-\    "step_into"            : "<Leader><F3>",
-\    "step_out"             : "<Leader><F4>",
-\    "run"                  : "<Leader><F5>",
-\    "close"                : "<Leader><F6>",
-\    "detach"               : "<Leader><F7>",
-\    "run_to_cursor"        : "<Leader><F9>",
-\    "set_breakpoint"       : "<Leader><F10>",
-\    "get_context"          : "<Leader><F11>",
-\    "eval_under_cursor"    : "<Leader><F12>",
-\}
-
-let g:vdebug_options = {
-\    'marker_default'       : '*',
-\    'marker_closed_tree'   : '+',
-\    'marker_open_tree'     : '-',
-\}

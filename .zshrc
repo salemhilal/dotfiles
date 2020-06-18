@@ -14,11 +14,7 @@ zplug "modules/utility", from:prezto
 # Prezto's Git module
 zplug "modules/git", from:prezto
 
-# Prezto's prompt
-# zplug "modules/prompt", from:prezto
-# zstyle ':prezto:module:prompt' theme 'sorin'
-
-# Powerlevel10k theme
+# Powerlevel10k prompt
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 # Prezto's history plugin
@@ -37,6 +33,9 @@ zplug "modules/completion", from:prezto
 # Note: needs to come after prezto's syntax highlihting and history substring module
 zplug "modules/autosuggestions", from:prezto
 
+# fuzzy filtering
+zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"
+
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -51,6 +50,12 @@ zplug load --verbose
 # Load powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Load FZF bindings
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Don't beep on autocomplete failures
+unsetopt LIST_BEEP
 
 
 # Set ls colors to be nicer
@@ -76,4 +81,5 @@ echo '
      \/__/         \/__/         \/__/     \/__/     \/__/
 
 '
+
 
