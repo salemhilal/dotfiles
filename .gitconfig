@@ -8,7 +8,7 @@
     # Globally ignore things in the gitignore file 
     excludesfile    = ~/.gitignore
     # Use highlighting and diff-so-fancy as the pager.
-    pager = diff-so-fancy | less --tabs=4 -+F -+X -c
+    pager = less --tabs=4 -+F -+X -c
     whitespace      = fix,-indent-with-non-tab,trailing-space,cr-at-eol
     editor          = vim
 
