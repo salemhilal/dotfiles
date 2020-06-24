@@ -33,8 +33,10 @@ Plug 'tpope/vim-unimpaired'
 " Repeat commands with . if plugins support it
 Plug 'tpope/vim-repeat'
 
-" I like this color scheme
+" I like these color schemes
 Plug 'plainfingers/black_is_the_color'
+" this provides xcodedark, xcodedarkhc, xcodelight, and xcodelighthc
+Plug 'arzg/vim-colors-xcode'
 
 " Vim airline and airline themes
 Plug 'vim-airline/vim-airline'
@@ -104,7 +106,7 @@ set backupcopy=yes
 " Set support for 256 colors
 let &t_Co=256
 " colorscheme time
-colorscheme black_is_the_color
+colorscheme xcodedarkhc
 " Let the theme know we want a dark background
 set background=dark
 " Disable termguicolors because mosh can't understand them

@@ -1,8 +1,11 @@
 export TERM=xterm-256color 
 
-##
-## ZPLUG TIME
-##
+# -----------------------------------
+#
+# ZPLUG TIME
+#
+# -----------------------------------
+
 source ~/.zplug/init.zsh
 
 # Let zplug manage itself
@@ -47,12 +50,36 @@ fi
 # Then, source plugins and add commands to $PATH
 zplug load --verbose
 
+
+# -----------------------------------
+#
+# INITIALIZE PLUGINS
+#
+# -----------------------------------
+
 # Load powerlevel10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Load FZF bindings
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# -----------------------------------
+#
+# GENERAL SETTINGS
+#
+# -----------------------------------
+
+# zsh settings
+#
+# don't let ^d exit zsh (that's also "scroll down" in tmux)
+setopt ignore_eof
+
+# Aliases
+#
+# vi should just be vim. vi is dead to us
+alias vi=vim
 
 # Don't beep on autocomplete failures
 unsetopt LIST_BEEP
