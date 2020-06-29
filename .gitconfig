@@ -1,7 +1,7 @@
 [user]
     user    = Salem Hilal
-    email   = salemhilal@gmail.com
-    name    = salemhilal
+    email   = shilal@etsy.com
+    name    = shilal
 
 [core]
     autocrlf = false
@@ -58,3 +58,8 @@
     added = green
     changed = yellow
     untracked = cyan
+
+[github]
+    username = shilal
+    token = 3e18c6daa4d50715b67563ada3e4e66281623a9a
+    gist-oauth-token = 3e18c6daa4d50715b67563ada3e4e66281623a9a

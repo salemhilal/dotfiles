@@ -75,6 +75,10 @@ zplug load --verbose
 #
 # don't let ^d exit zsh (that's also "scroll down" in tmux)
 setopt ignore_eof
+# enable monitor mode, which allows for jobs and backgrounding.
+# note that this has to be explicitly set if you use zplug:
+# https://github.com/zplug/zplug/issues/322
+setopt monitor
 
 # Aliases
 #
