@@ -20,7 +20,7 @@ zplug "modules/git", from:prezto
 # Powerlevel10k prompt
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
-# Prezto's history plugin
+# Prezto's history search plugin
 zplug "modules/history-substring-search", from:prezto
 zstyle ':prezto:module:history-substring-search' color 'yes'
 
@@ -73,12 +73,28 @@ zplug load --verbose
 
 # zsh settings
 #
+# let's have a history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 # don't let ^d exit zsh (that's also "scroll down" in tmux)
 setopt ignore_eof
 # enable monitor mode, which allows for jobs and backgrounding.
 # note that this has to be explicitly set if you use zplug:
 # https://github.com/zplug/zplug/issues/322
 setopt monitor
+# keep the history in each sell separate from each other
+unsetopt share_history
+# only append history to the history file when a shell exits
+unsetopt inc_append_history
+# save each command's timestamp and duration in the history
+setopt extended_history
+# when trimming thehistory, get rid of duplicates first
+setopt hist_expire_dups_first
+# don't save history if we rerun the same command twice
+setopt hist_ignore_dups
+# don't save duplicates to the history file
+setopt hist_save_no_dups
 
 # Aliases
 #
@@ -88,6 +104,8 @@ alias vi=vim
 # Don't beep on autocomplete failures
 unsetopt LIST_BEEP
 
+# use light gray when showing autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
 # Set ls colors to be nicer
 # https://www.reddit.com/r/zsh/comments/5601g0/ls_colors/
