@@ -24,17 +24,18 @@ brew install zsh zsh-completions
 echo "Setting shell as zsh"
 chsh -s $(which zsh)
 
-echo "Installing iterm2"
+echo "Installing iterm2..."
 brew cask install iterm2
 
-echo "Installing powerline fonts"
+echo "Installing powerline fonts..."
 brew tap homebrew/cask-fonts
-brew cask install font-fira-code
-brew cask install font-fira-mono-for-powerline
+brew cask install font-meslo-lg-nerd-font
 
 # install zplug
+echo "Installing zplug..."
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 # install tpm (tmux package manager)
+echo "Installing tpm..."
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
