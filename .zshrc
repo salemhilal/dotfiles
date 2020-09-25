@@ -6,6 +6,11 @@ export TERM=xterm-256color
 #
 # -----------------------------------
 
+# Make sure we have zplug installed
+if [[ ! -d ~/.zplug ]];then
+    git clone https://github.com/b4b4r07/zplug ~/.zplug
+fi
+
 source ~/.zplug/init.zsh
 
 # Let zplug manage itself
