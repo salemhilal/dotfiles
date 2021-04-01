@@ -25,11 +25,11 @@ echo "Setting shell as zsh"
 chsh -s $(which zsh)
 
 echo "Installing iterm2..."
-brew cask install iterm2
+brew install iterm2
 
 echo "Installing powerline fonts..."
 brew tap homebrew/cask-fonts
-brew cask install font-meslo-lg-nerd-font
+brew install font-meslo-lg-nerd-font
 
 # install zplug
 echo "Installing zplug..."
