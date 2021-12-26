@@ -1,7 +1,6 @@
 [user]
-    user    = Salem Hilal
-    email   = shilal@etsy.com
-    name    = shilal
+    email   = hi@salem.io
+    name    = Salem Hilal
 
 [core]
     autocrlf = false
